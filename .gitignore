@@ -50,3 +50,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# vim
+**/.*.sw[opq]
+
+# generated for now
+src/dist_struct.c
+src/dist_struct.h
+
+# result for now
+out
+
