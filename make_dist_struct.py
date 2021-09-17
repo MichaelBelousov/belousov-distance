@@ -30,7 +30,14 @@ Z   128         Z   0.07"""
 table = [[c.strip() for c in r.split()] for r in source.lower().split('\n')]
 freqs = {k[0]:k[3] for k in table}
 _64bit_segments = {k:max(1, round(64*(float(v)/100))) for k,v in freqs.items()}
-# assert sum(_64bit_segments.values()) == 64, "64bit_segments not 64"
+
+# relies on insertion order to subtract from the big ones at the top
+for _, (k,v) in zip(range(sum(_64bit_segments.values()) - 64), _64bit_segments.items()):
+    _64bit_segments[k] = v-1
+
+_64bit_segments = dict(_64bit_segments)
+
+assert sum(_64bit_segments.values()) == 64, f"(sum(_64bit_segments.values()) == {sum(_64bit_segments.values())}) != 64"
 
 print(f"""
 typedef struct Dist {{

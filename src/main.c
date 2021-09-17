@@ -6,7 +6,7 @@
 // honestly I should try using zig instead
 
 int main() {
-  assert(sizeof(Dist) == sizeof(unsigned));
+  assert(sizeof(Dist) == sizeof(unsigned long long));
   const char* word = "test";
   const Dist dist = hash(word);
   printf("hash of '%s' was %lld\n", word, dist);
