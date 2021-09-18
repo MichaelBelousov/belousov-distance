@@ -35,7 +35,8 @@ _64bit_segments = {k:max(1, round(64*(float(v)/100))) for k,v in freqs.items()}
 for _, (k,v) in zip(range(sum(_64bit_segments.values()) - 64), _64bit_segments.items()):
     _64bit_segments[k] = v-1
 
-_64bit_segments = dict(_64bit_segments)
+# reverse so that big ones get least significant bits
+_64bit_segments = dict(reversed(_64bit_segments.items()))
 
 assert sum(_64bit_segments.values()) == 64, f"(sum(_64bit_segments.values()) == {sum(_64bit_segments.values())}) != 64"
 
@@ -57,5 +58,13 @@ Dist hash(const char* const str) {{
         }}
     return result;
     }}
+}}
+""")
+
+printf_sep = '\n' + 1*4*' '
+nl = '\\n'
+print(f"""
+void dist_debug(const Dist dist) {{
+    {printf_sep.join(f'printf("{c}: %d,", dist.{c});' for c in _64bit_segments)}
 }}
 """)
