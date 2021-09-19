@@ -3,4 +3,4 @@ dumb name for a play on levenshtein-distance
 
 # attributions
 
-words_alpha.txt stolen from [](https://github.com/dwyl/english-words/)
+words_alpha.txt stolen from [here](https://github.com/dwyl/english-words/)
