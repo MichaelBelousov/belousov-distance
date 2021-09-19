@@ -13,7 +13,8 @@ int main() {
   Dist _res;
 #define PRINTHASH(x) _res = hash((x)); printf("hash of '%s' was %llu\n", (x), (long long unsigned*) &_res)
   PRINTHASH("sett");
-  dist_debug(_res);
   PRINTHASH("test");
-  dist_debug(_res);
+  PRINTHASH("testttq");
+
+  // TODO: do a chi-squared test over a corpus of english words to see if this is a decent hash for identifiers
 }
