@@ -42,11 +42,19 @@ assert sum(_64bit_segments.values()) == 64, f"(sum(_64bit_segments.values()) == 
 
 print("""
 #include <iostream>
+#include <cstdint>
 """)
+
 
 print(f"""
 typedef struct Dist {{
     unsigned {','.join(f'{c}:{size}' for c,size in _64bit_segments.items())};
+    operator uint64_t() const {{ return reinterpret_cast<const uint64_t&&>(*this); }}
+    bool operator ==(const Dist& other) {{ return static_cast<uint64_t&&>(*this) == static_cast<const uint64_t&>(other); }}
+    std::ostream& operator<< (std::ostream& os) {{
+        os << {' << '.join(f'"{c}: " << {c} << ","' for c in _64bit_segments)} << std::endl;
+        return os;
+    }}
 }} Dist;
 """)
 
@@ -60,16 +68,8 @@ Dist hash(const char* const str) {{
         switch (*c) {{
             {case_sep.join(f"case '{c.upper()}':{case_sep}case '{c}': result.{c} = result.{c} >= {2**size - 1} ? result.{c} : result.{c} + 1; break;" for c,size in _64bit_segments.items())}
         }}
-    return result;
     }}
-}}
-""")
-
-printf_sep = '\n' + 1*4*' '
-nl = '\\n'
-print(f"""
-void dist_debug(const Dist dist) {{
-    {printf_sep.join(f'std::cout << "{c}: " << dist.{c} << std::endl;' for c in _64bit_segments)}
+    return result;
 }}
 """)
 
