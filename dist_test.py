@@ -7,6 +7,12 @@ from bisect import bisect_left
 
 bit_widths = {'z':1,'j':1,'q':1,'x':1,'k':1,'v':1,'b':1,'p':1,'g':1,'w':1,'y':1,'f':1,'m':2,'c':2,'u':2,'l':3,'d':3,'h':4,'r':4,'s':4,'n':4,'i':4,'o':4,'a':4,'t':5,'e':7}
 
+width_masks = {}
+width_depth = 1
+for i in range(65):
+    width_depth += 1
+    width_masks
+
 def hash(word):
     counts = {c:0 for c in bit_widths}
     for c in word:
@@ -16,6 +22,7 @@ def hash(word):
     depth = 0
     for c,width in reversed(bit_widths.items()):
         count = counts[c]
+        # how to calculate a bit mask in python efficiently without the -1 hack
         result += (count & width) << depth
         depth += width
     return result

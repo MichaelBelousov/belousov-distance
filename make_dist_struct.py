@@ -40,6 +40,10 @@ _64bit_segments = dict(reversed(_64bit_segments.items()))
 
 assert sum(_64bit_segments.values()) == 64, f"(sum(_64bit_segments.values()) == {sum(_64bit_segments.values())}) != 64"
 
+print("""
+#include <iostream>
+""")
+
 print(f"""
 typedef struct Dist {{
     unsigned {','.join(f'{c}:{size}' for c,size in _64bit_segments.items())};
@@ -65,6 +69,11 @@ printf_sep = '\n' + 1*4*' '
 nl = '\\n'
 print(f"""
 void dist_debug(const Dist dist) {{
-    {printf_sep.join(f'printf("{c}: %d,", dist.{c});' for c in _64bit_segments)}
+    {printf_sep.join(f'std::cout << "{c}: " << dist.{c} << std::endl;' for c in _64bit_segments)}
 }}
 """)
+
+print("""
+static_assert(sizeof(Dist) == sizeof(uint64_t), "");
+""")
+
